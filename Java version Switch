@@ -1,0 +1,66 @@
+### 1. **Verifica si hay versiones múltiples de Java instaladas**
+   Si tienes varias versiones de Java instaladas, es posible que tu sistema esté usando una versión diferente en lugar de Java 17. Verifica las versiones instaladas con:
+
+   ```bash
+   sudo update-alternatives --config java
+   ```
+
+   Asegúrate de que OpenJDK 17 esté seleccionado. A veces, aunque hayas instalado una nueva versión de Java, es posible que la configuración predeterminada no se haya actualizado correctamente.
+
+### 2. **Revisar variables de entorno (`JAVA_HOME`)**
+   Revisa si la variable `JAVA_HOME` está configurada correctamente, ya que algunas aplicaciones utilizan esta variable para determinar qué versión de Java usar:
+
+   - Abre el archivo de perfil de bash para editarlo:
+
+     ```bash
+     sudo nano /etc/environment
+     ```
+
+   - Asegúrate de que el `JAVA_HOME` apunte a la ruta correcta de Java 17. Por ejemplo, si instalaste OpenJDK 17, puedes agregar esta línea:
+
+     ```bash
+     JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"
+     ```
+
+   - Guarda el archivo y aplica los cambios:
+
+     ```bash
+     source /etc/environment
+     ```
+
+   Luego, puedes verificar el valor de la variable:
+
+   ```bash
+   echo $JAVA_HOME
+   ```
+
+   Y asegúrate de que apunte a la ruta correcta de Java 17.
+
+### 3. **Verificar configuración específica de aplicaciones**
+   Algunas aplicaciones pueden estar configuradas para usar una versión específica de Java (como la que mencionas en tu mensaje). Si estás ejecutando una aplicación que contiene su propio entorno de ejecución de Java (como IDEs), asegúrate de que no esté utilizando una versión diferente de Java que tengas instalada.
+
+   Por ejemplo, en IntelliJ IDEA (si es la aplicación que mencionas), puedes ajustar la versión de JDK utilizada por la propia aplicación:
+   
+   - Ve a `File` > `Project Structure` > `SDKs` y asegúrate de que la ruta esté configurada para OpenJDK 17.
+   - Revisa la configuración del entorno JBR si el mensaje proviene de una instalación basada en JetBrains Runtime (JBR).
+
+### 4. **Comprobar que no estás ejecutando la aplicación en un contenedor o sandbox**
+   Si estás utilizando algo como `snap`, `flatpak`, o un contenedor de `Docker`, la aplicación puede estar aislada de la instalación de Java en el sistema. En ese caso, necesitarías cambiar la versión de Java dentro del contenedor o entorno.
+
+### 5. **Eliminar versiones antiguas**
+   Si el sistema sigue usando una versión de Java que no quieres, podrías considerar eliminar versiones antiguas para forzar el uso de Java 17:
+
+   ```bash
+   sudo apt remove openjdk-11-jdk
+   ```
+
+   Asegúrate de no desinstalar accidentalmente versiones de Java que sí necesitas para otros programas.
+
+### 6. **Forzar actualización del sistema de enlaces simbólicos**
+   En algunos casos, los enlaces simbólicos hacia la versión de Java pueden no estar actualizados correctamente. Puedes intentar reinstalarlos:
+
+   ```bash
+   sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-17-openjdk-amd64/bin/java 1
+   ```
+
+   Esto debería forzar al sistema a usar la nueva versión.
