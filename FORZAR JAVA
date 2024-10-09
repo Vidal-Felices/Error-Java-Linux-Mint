@@ -1,0 +1,16 @@
+Configura Java 17 como predeterminada de forma permanente:
+
+Si quieres que esta versión de Java sea la predeterminada para todas las sesiones futuras, puedes modificar tu archivo ~/.bashrc o ~/.bash_profile añadiendo las siguientes líneas:
+
+bash
+```
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+export PATH=$JAVA_HOME/bin:$PATH
+```
+
+Luego, para aplicar los cambios, ejecuta:
+
+bash
+```
+source ~/.bashrc
+```
