@@ -14,3 +14,4 @@ bash
 ```
 source ~/.bashrc
 ```
+Conda activate env
